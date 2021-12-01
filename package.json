@@ -31,8 +31,8 @@
     "typescript": "^4.5.2"
   },
   "peerDependencies": {
-    "@aws-cdk/core": ">=1.123.0",
-    "@aws-cdk/aws-lambda": ">=1.123.0"
+    "@aws-cdk/core": ">=1.96.0",
+    "@aws-cdk/aws-lambda": ">=1.96.0"
   },
   "dependencies": {
     "fs-extra": "^10.0.0"
