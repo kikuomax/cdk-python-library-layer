@@ -1,0 +1,9 @@
+# node artifacts
+/node_modules
+
+# build artifacts
+/dist
+
+# editor artifacts
+*.swp
+*~
