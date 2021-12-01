@@ -34,7 +34,7 @@ import { PythonLibraryLayer } from 'cdk-python-library-layer';
 class YourCdkConstruct extends cdk.Construct {
     constructor(scope: cdk.Construct, id: string) {
         super(scope, id);
-        this.layer = new PythonLibraryLayer({
+        this.layer = new PythonLibraryLayer(this, 'libexample', {
             runtime: lambda.Runtime.PYTHON_3_8,
             entry: path.resolve('lambda', 'libexample'),
         });
@@ -60,7 +60,7 @@ I had a project that had a lot of Python Lambda functions that shared some codes
 Not to duplicate the shared codes, I packaged them as a Python package and planned to reuse it as a Lambda layer.
 Since the package was specific to the project, I did not want to publish the package to any package repository.
 
-First, I have tried [`PythonLayerVersion`](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-lambda-python.PythonLayerVersion.html), but it did not work as I intended; more preceisely, I could not figure out how to achieve what I wanted to do with it.
+First, I tried [`PythonLayerVersion`](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-lambda-python.PythonLayerVersion.html), but it did not work as I intended; more preceisely, I could not figure out how to achieve what I wanted to do with it.
 As far as I looked into the [source code](https://github.com/aws/aws-cdk/tree/v1.134.0/packages/%40aws-cdk/aws-lambda-python/lib), it looked that it just downloads packages listed in `requirements.txt` and copies them under a `python` folder.
 It did not look that it handles any scripts in an `entry` folder.
 

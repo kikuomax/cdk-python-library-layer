@@ -34,7 +34,7 @@ import { PythonLibraryLayer } from 'cdk-python-library-layer';
 class YourCdkConstruct extends cdk.Construct {
     constructor(scope: cdk.Construct, id: string) {
         super(scope, id);
-        this.layer = new PythonLibraryLayer({
+        this.layer = new PythonLibraryLayer(this, 'libexample', {
             runtime: lambda.Runtime.PYTHON_3_8,
             entry: path.resolve('lambda', 'libexample'),
         });
@@ -56,8 +56,8 @@ your_package/
 
 ## 背景
 
-ある私のプロジェクトでPythonのLambda関数をたくさん使っており、その関数の間でコードが被っていました。
-共通部分のコードを複製しないように、それをPythonパッケージにしLambdaレイヤーとして再利用することを考えました。
+あるプロジェクトで私はPythonのLambda関数をたくさん使っており、その関数の間でコードが被っていました。
+共通部分のコードを複製しないように、それらをPythonパッケージにしLambdaレイヤーとして再利用することを考えました。
 パッケージはプロジェクト特有のものなので、パッケージレポジトリには公開したくありませんでした。
 
 最初、[`PythonLayerVersion`](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-lambda-python.PythonLayerVersion.html)を試しましたが、思ったように動きませんでした。というより、これでやりたいことをどう実現してよいか分かりませんでした。
