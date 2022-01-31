@@ -1,8 +1,13 @@
 import * as fsx from 'fs-extra';
 import * as path from 'path';
 
-import * as cdk from '@aws-cdk/core';
-import * as lambda from '@aws-cdk/aws-lambda';
+import {
+  aws_lambda as lambda,
+  AssetStaging,
+  FileSystem,
+  DockerImage,
+} from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 
 /** Properties for `PythonLibraryLayer`. */
 export type PythonLibraryLayerProps = {
@@ -32,7 +37,7 @@ export type PythonLibraryLayerProps = {
  */
 export class PythonLibraryLayer extends lambda.LayerVersion {
   constructor(
-    scope: cdk.Construct,
+    scope: Construct,
     id: string,
     props: PythonLibraryLayerProps,
   ) {
@@ -41,7 +46,7 @@ export class PythonLibraryLayer extends lambda.LayerVersion {
 
     // duplicates the library in a working directory
     // a Docker image is built inside this directory
-    const stageDir = cdk.FileSystem.mkdtemp('python-library-');
+    const stageDir = FileSystem.mkdtemp('python-library-');
     fsx.copySync(entry, stageDir);
 
     // builds a Docker image with the library installed in /var/packaged
@@ -49,7 +54,7 @@ export class PythonLibraryLayer extends lambda.LayerVersion {
       path.join(__dirname, 'Dockerfile'),
       path.join(stageDir, 'Dockerfile'),
     );
-    const image = cdk.DockerImage.fromBuild(stageDir, {
+    const image = DockerImage.fromBuild(stageDir, {
       buildArgs: {
         IMAGE: runtime.bundlingImage.image,
       },
@@ -57,7 +62,7 @@ export class PythonLibraryLayer extends lambda.LayerVersion {
 
     // script to run during bundling
     // outputs the installed library
-    const outputPath = `${cdk.AssetStaging.BUNDLING_OUTPUT_DIR}/python`;
+    const outputPath = `${AssetStaging.BUNDLING_OUTPUT_DIR}/python`;
     const script = `rsync -r /var/packaged/. ${outputPath}`;
 
     super(scope, id, {
