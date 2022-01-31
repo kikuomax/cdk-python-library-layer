@@ -1,8 +1,8 @@
 [English](README.md) / 日本語
 
-# CDK Python Library Layer
+# CDK Python Library Layer for CDK v2
 
-`cdk-python-library-layer`はプライベートなPythonパッケージをLambdaレイヤーに変えます。
+`cdk2-python-library-layer`はプライベートなPythonパッケージをLambdaレイヤーに変えます。
 このライブラリはCDKスクリプトに組み込むことのできる[CDK Construct](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_core.Construct.html)を提供します。
 
 ## このライブラリが解決すること
@@ -14,7 +14,7 @@
 以下のコマンドを実行してください。
 
 ```sh
-npm install https://github.com/kikuomax/cdk-python-library-layer.git#v0.1.0
+npm install https://github.com/kikuomax/cdk-python-library-layer.git#v0.1.0-v2
 ```
 
 ## ライブラリを使う
@@ -26,13 +26,13 @@ npm install https://github.com/kikuomax/cdk-python-library-layer.git#v0.1.0
 
 ```js
 import * as path from 'path';
-import * as cdk from '@aws-cdk/core';
-import * as lambda from '@aws-cdk/aws-lambda';
+import { aws_lambda as lambda } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 
-import { PythonLibraryLayer } from 'cdk-python-library-layer';
+import { PythonLibraryLayer } from 'cdk2-python-library-layer';
 
-class YourCdkConstruct extends cdk.Construct {
-    constructor(scope: cdk.Construct, id: string) {
+class YourCdkConstruct extends Construct {
+    constructor(scope: Construct, id: string) {
         super(scope, id);
         this.layer = new PythonLibraryLayer(this, 'libexample', {
             runtime: lambda.Runtime.PYTHON_3_8,
