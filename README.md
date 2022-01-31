@@ -5,6 +5,8 @@ English / [日本語](./README_ja.md)
 `cdk-python-library-layer` turns your private Python package into a Lambda layer.
 This library provides a [CDK Construct](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_core.Construct.html) that you can incorporate into your CDK script.
 
+Please refer to the [`v2.x`](https://github.com/kikuomax/cdk-python-library-layer/tree/v2.x) branch for CDK v2.
+
 ## What this library solves
 
 This library turns a private Python package that `pip` cannot resolve into an [AWS Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html).

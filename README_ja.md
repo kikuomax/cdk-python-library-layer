@@ -5,6 +5,8 @@
 `cdk-python-library-layer`はプライベートなPythonパッケージをLambdaレイヤーに変えます。
 このライブラリはCDKスクリプトに組み込むことのできる[CDK Construct](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_core.Construct.html)を提供します。
 
+CDK v2については[`v2.x`](https://github.com/kikuomax/cdk-python-library-layer/tree/v2.x)ブランチをご覧ください。
+
 ## このライブラリが解決すること
 
 このライブラリは`pip`で解決することのできないプライベートなPythonパッケージを[AWS Lambdaレイヤー](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html)に変えます。
