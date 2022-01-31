@@ -1,5 +1,5 @@
 {
-  "name": "cdk-python-library-layer",
+  "name": "cdk2-python-library-layer",
   "version": "0.1.0",
   "description": "Packages a Python library as a Lambda layer",
   "main": "./dist/index.js",
@@ -24,15 +24,15 @@
     "node": ">=12.0.0"
   },
   "devDependencies": {
-    "@aws-cdk/aws-lambda": "^1.134.0",
-    "@aws-cdk/core": "^1.134.0",
     "@types/fs-extra": "^9.0.13",
-    "@types/node": "^16.11.11",
-    "typescript": "^4.5.2"
+    "@types/node": "^16.11.21",
+    "aws-cdk-lib": "^2.10.0",
+    "constructs": "^10.0.50",
+    "typescript": "^4.5.5"
   },
   "peerDependencies": {
-    "@aws-cdk/core": ">=1.96.0",
-    "@aws-cdk/aws-lambda": ">=1.96.0"
+    "aws-cdk-lib": ">=2.0.0",
+    "constructs": ">=10.0.0"
   },
   "dependencies": {
     "fs-extra": "^10.0.0"
