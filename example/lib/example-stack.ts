@@ -1,12 +1,12 @@
 import * as path from 'path';
-import * as cdk from '@aws-cdk/core';
-import * as lambda from '@aws-cdk/aws-lambda';
-import { PythonFunction } from '@aws-cdk/aws-lambda-python';
+import { aws_lambda as lambda, Stack, StackProps } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { PythonFunction } from '@aws-cdk/aws-lambda-python-alpha';
 
-import { PythonLibraryLayer } from 'cdk-python-library-layer';
+import { PythonLibraryLayer } from 'cdk2-python-library-layer';
 
-export class ExampleStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+export class ExampleStack extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
     const libexample = new PythonLibraryLayer(this, 'libexample', {
