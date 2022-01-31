@@ -22,7 +22,7 @@
   "dependencies": {
     "@aws-cdk/aws-lambda-python-alpha": "^2.10.0-alpha.0",
     "aws-cdk-lib": "2.10.0",
-    "cdk2-python-library-layer": "git+https://github.com/kikuomax/cdk-python-library-layer.git#v2.x",
+    "cdk2-python-library-layer": "git+https://github.com/kikuomax/cdk-python-library-layer.git#v0.1.0-v2",
     "constructs": "^10.0.0",
     "source-map-support": "^0.5.16"
   }
