@@ -1,6 +1,6 @@
 {
   "name": "cdk2-python-library-layer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Packages a Python library as a Lambda layer",
   "main": "./dist/index.js",
   "files": [
@@ -10,6 +10,7 @@
   ],
   "scripts": {
     "build": "tsc",
+    "type-check": "tsc --noEmit",
     "prepare": "npm run build && cp src/Dockerfile dist/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -28,7 +29,7 @@
     "@types/node": "^16.11.21",
     "aws-cdk-lib": "^2.10.0",
     "constructs": "^10.0.50",
-    "typescript": "^4.5.5"
+    "typescript": "^4.9.3"
   },
   "peerDependencies": {
     "aws-cdk-lib": ">=2.0.0",

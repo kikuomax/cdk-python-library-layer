@@ -9,8 +9,17 @@ import {
 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
-/** Properties for `PythonLibraryLayer`. */
-export type PythonLibraryLayerProps = {
+/**
+ * Properties for `PythonLibraryLayer`.
+ *
+ * @remarks
+ *
+ * Includes all of the properties in `aws_lambda.LayerVersionProps` except for
+ * `code` and `compatibleRuntimes`.
+ */
+export interface PythonLibraryLayerProps
+  extends Omit<lambda.LayerVersionProps, 'code' | 'compatibleRuntimes'>
+{
   /** Runtime to use. */
   readonly runtime: lambda.Runtime;
   /** Path to the module root directory where `pyproject.toml` is saved. */

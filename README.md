@@ -14,7 +14,7 @@ This library turns a private Python package that `pip` cannot resolve into an [A
 Please run the following command,
 
 ```sh
-npm install https://github.com/kikuomax/cdk-python-library-layer.git#v0.1.0-v2
+npm install https://github.com/kikuomax/cdk-python-library-layer.git#v0.2.0-v2
 ```
 
 ## Using the library
@@ -35,8 +35,13 @@ class YourCdkConstruct extends Construct {
     constructor(scope: Construct, id: string) {
         super(scope, id);
         this.layer = new PythonLibraryLayer(this, 'libexample', {
+            description: 'Example Lambda layer',
             runtime: lambda.Runtime.PYTHON_3_8,
             entry: path.resolve('lambda', 'libexample'),
+            compatibleArchitectures: [
+                lambda.Architecture.ARM_64,
+                lambda.Architecture.X86_64,
+            ],
         });
     }
 }
