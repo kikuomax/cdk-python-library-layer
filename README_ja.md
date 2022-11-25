@@ -14,7 +14,7 @@
 以下のコマンドを実行してください。
 
 ```sh
-npm install https://github.com/kikuomax/cdk-python-library-layer.git#v0.1.0-v2
+npm install https://github.com/kikuomax/cdk-python-library-layer.git#v0.2.0-v2
 ```
 
 ## ライブラリを使う
@@ -35,8 +35,13 @@ class YourCdkConstruct extends Construct {
     constructor(scope: Construct, id: string) {
         super(scope, id);
         this.layer = new PythonLibraryLayer(this, 'libexample', {
+            description: 'Lambdaレイヤーの例',
             runtime: lambda.Runtime.PYTHON_3_8,
             entry: path.resolve('lambda', 'libexample'),
+            compatibleArchitectures: [
+                lambda.Architecture.ARM_64,
+                lambda.Architecture.X86_64,
+            ],
         });
     }
 }
