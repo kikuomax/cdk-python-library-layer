@@ -10,8 +10,13 @@ export class ExampleStack extends Stack {
     super(scope, id, props);
 
     const libexample = new PythonLibraryLayer(this, 'libexample', {
+      description: 'Example Lambda layer',
       runtime: lambda.Runtime.PYTHON_3_8,
       entry: path.resolve('lambda', 'libexample'),
+      compatibleArchitectures: [
+        lambda.Architecture.ARM_64,
+        lambda.Architecture.X86_64,
+      ],
     });
     const exampleLambda = new PythonFunction(this, 'ExampleLambda', {
       description: 'Example Lambda function',
