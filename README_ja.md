@@ -5,6 +5,8 @@
 `cdk2-python-library-layer`はプライベートなPythonパッケージをLambdaレイヤーに変えます。
 このライブラリはCDKスクリプトに組み込むことのできる[CDK Construct](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_core.Construct.html)を提供します。
 
+**注意**: CDK v1用のブランチ(`main`)はもうメンテナンスされていません。
+
 ## このライブラリが解決すること
 
 このライブラリは`pip`で解決することのできないプライベートなPythonパッケージを[AWS Lambdaレイヤー](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html)に変えます。
@@ -14,7 +16,7 @@
 以下のコマンドを実行してください。
 
 ```sh
-npm install https://github.com/kikuomax/cdk-python-library-layer.git#v0.2.0-v2
+npm install https://github.com/kikuomax/cdk-python-library-layer.git#v0.2.1-v2
 ```
 
 ## ライブラリを使う
@@ -70,3 +72,31 @@ your_package/
 `entry`フォルダ内のスクリプトを何かしているようには見えませんでした。
 
 ということで、プライベートなパッケージから何とかしてLambdaレイヤーを作る必要がありました。
+
+## トラブルシューティング
+
+### Dockerがクロスプラットフォームエラーで失敗する
+
+Dockerを実行しているマシンのプラットフォームとレイヤーのターゲットプラットフォーム(`compatibleArchitectures`)が異なると、以下のようなエラーメッセージに出くわすかもしれません。
+```
+WARNING: The requested image's platform (linux/arm64) does not match the detected host platform (linux/amd64/v3) and no specific platform was requested
+exec /usr/bin/bash: exec format error
+
+/home/ubuntu/cdk-python-library-layer/example/node_modules/aws-cdk-lib/core/lib/asset-staging.ts:395
+      throw new Error(`Failed to bundle asset ${this.node.path}, bundle output is located at ${bundleErrorDir}: ${err}`);
+```
+
+もしマルチプラットフォーム用のレイヤーをビルドしているのなら、一番最初の項目があなたのマシンのプラットーフォームと一致するよう`compatibleArchitectures`の順序を変えてください。例えば、x86_64ベースのマシンなら:
+```ts
+compatibleArchitectures: [
+    lambda.Architecture.X86_64,
+    lambda.Architecture.ARM_64,
+]
+```
+
+それかDockerがクロスプラットフォームのイメージをビルドできるようにしてください。
+やり方は環境によりますが、[このページ](https://docs.docker.com/build/building/multi-platform/)が役に立つかもしれません。
+Ubuntu 22.04では、`qemu-user-static`をインストールすることでこの問題を解決できました。
+```sh
+sudo apt-get install qemu-user-static
+```

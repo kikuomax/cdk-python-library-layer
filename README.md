@@ -5,6 +5,8 @@ English / [日本語](./README_ja.md)
 `cdk2-python-library-layer` turns your private Python package into a Lambda layer.
 This library provides a [CDK Construct](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_core.Construct.html) that you can incorporate into your CDK script.
 
+**NOTE**: The branch for CDK v1 (`main`) is no longer maintained.
+
 ## What this library solves
 
 This library turns a private Python package that `pip` cannot resolve into an [AWS Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html).
@@ -14,7 +16,7 @@ This library turns a private Python package that `pip` cannot resolve into an [A
 Please run the following command,
 
 ```sh
-npm install https://github.com/kikuomax/cdk-python-library-layer.git#v0.2.0-v2
+npm install https://github.com/kikuomax/cdk-python-library-layer.git#v0.2.1-v2
 ```
 
 ## Using the library
@@ -70,3 +72,31 @@ As far as I looked into the [source code](https://github.com/aws/aws-cdk/tree/v1
 It did not look that it handles any scripts in an `entry` folder.
 
 Thus, I had to somehow make a Lambda layer from my private package.
+
+## Trouble shooting
+
+### Docker failing with a cross-platform error
+
+If the platform of your machine running Docker is different from the target platform (`compatibleArchitectures`) of the layer, you may face an error message similar to the following:
+```
+WARNING: The requested image's platform (linux/arm64) does not match the detected host platform (linux/amd64/v3) and no specific platform was requested
+exec /usr/bin/bash: exec format error
+
+/home/ubuntu/cdk-python-library-layer/example/node_modules/aws-cdk-lib/core/lib/asset-staging.ts:395
+      throw new Error(`Failed to bundle asset ${this.node.path}, bundle output is located at ${bundleErrorDir}: ${err}`);
+```
+
+If you are building a layer compatible with multiple platforms, change the order of `compatibleArchitectures` so that the first item matches your machine's platform; e.g., suppose your machine is based on x86_64:
+```ts
+compatibleArchitectures: [
+    lambda.Architecture.X86_64,
+    lambda.Architecture.ARM_64,
+]
+```
+
+Or allow Docker to build a cross-platform image.
+How to do it depends on your environment, though, [this page](https://docs.docker.com/build/building/multi-platform/) would be helpful.
+On Ubuntu 22.04, I was able to solve this issue by installing `qemu-user-static`.
+```sh
+sudo apt-get install qemu-user-static
+```
