@@ -86,7 +86,7 @@ exec /usr/bin/bash: exec format error
       throw new Error(`Failed to bundle asset ${this.node.path}, bundle output is located at ${bundleErrorDir}: ${err}`);
 ```
 
-もしマルチプラットフォーム用のレイヤーをビルドしているのなら、一番最初の項目があなたのマシンのプラットーフォームと一致するよう`compatibleArchitectures`の順序を変えてください。例えば、x86_64ベースのマシンなら:
+もしマルチプラットフォーム用のレイヤーをビルドしているのなら、一番最初の項目があなたのマシンのプラットフォームと一致するよう`compatibleArchitectures`の順序を変えてください。例えば、x86_64ベースのマシンなら:
 ```ts
 compatibleArchitectures: [
     lambda.Architecture.X86_64,
