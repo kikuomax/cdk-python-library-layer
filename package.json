@@ -1,6 +1,6 @@
 {
   "name": "cdk2-python-library-layer",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Packages a Python library as a Lambda layer",
   "main": "./dist/index.js",
   "files": [

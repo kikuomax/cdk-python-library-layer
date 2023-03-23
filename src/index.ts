@@ -26,6 +26,17 @@ export interface PythonLibraryLayerProps
   readonly entry: string;
 };
 
+// selects the architecture from given properties.
+//
+// selects `X86_64` if `props` specifies no compatible architecture.
+// selects the first architecture if `props` specifies multiple architectures.
+function selectArchitecture(
+  props: PythonLibraryLayerProps,
+): lambda.Architecture {
+  const candidates = props.compatibleArchitectures ?? [];
+  return candidates[0] ?? lambda.Architecture.X86_64;
+}
+
 /**
  * CDK Construct that packages a Python library as a Lambda layer.
  *
@@ -51,6 +62,7 @@ export class PythonLibraryLayer extends lambda.LayerVersion {
     props: PythonLibraryLayerProps,
   ) {
     const { runtime } = props;
+    const architecture = selectArchitecture(props);
     const entry = path.resolve(props.entry);
 
     // duplicates the library in a working directory
@@ -67,6 +79,9 @@ export class PythonLibraryLayer extends lambda.LayerVersion {
       buildArgs: {
         IMAGE: runtime.bundlingImage.image,
       },
+      // without platform,
+      // the build process may fail complaining platform incompatibility
+      platform: architecture.dockerPlatform,
     });
 
     // script to run during bundling
